@@ -1,0 +1,5 @@
+Hello {{username}}
+
+use the link below to reset password
+
+{{url_for('auth.reset_confirm', token=token, _external=True)}}

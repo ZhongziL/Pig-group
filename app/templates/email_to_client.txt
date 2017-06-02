@@ -1,0 +1,5 @@
+welcome {{username}}
+
+use the link below to confirm
+
+{{url_for('auth.confirm', token=token, _external=True)}}
