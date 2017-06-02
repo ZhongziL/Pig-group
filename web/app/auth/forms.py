@@ -64,8 +64,15 @@ class ChangeEmailForm(FlaskForm):
     submit = SubmitField('Change Email')
 
 
-class ResetForm(FlaskForm):
+class ResetForm_email(FlaskForm):
     email = StringField('email', validators=[DataRequired()])
+    submit = SubmitField('Reset Password')
+
+
+class ResetForm_tel(FlaskForm):
+    telnumber = StringField('telnumber', validators=[DataRequired()])
+    send = SubmitField('Send Message')
+    validatecode = StringField('code', validators=[DataRequired()])
     submit = SubmitField('Reset Password')
 
 

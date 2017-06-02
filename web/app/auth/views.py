@@ -1,8 +1,8 @@
 from . import auth
 from flask import url_for, render_template, redirect, flash, request, session
 from .forms import LoginForm, RegisterForm_email, ChangePasswordForm, EditProfileForm
-from .forms import ChangeEmailForm, ResetPasswordForm, ResetForm, EditProfileAdminForm
-from .forms import LoginForm_telnumber, RegisterForm_telnumber
+from .forms import ChangeEmailForm, ResetPasswordForm, ResetForm_tel, EditProfileAdminForm
+from .forms import LoginForm_telnumber, RegisterForm_telnumber, ResetForm_email
 from ..models import User
 from sqlalchemy import or_
 from .. import db
@@ -160,9 +160,9 @@ def change_email():
     return render_template('/auth/change_email.html', form=form)
 
 
-@auth.route('/reset', methods=['GET', 'POST'])
-def reset_password():
-    form = ResetForm()
+@auth.route('/reset_by_email', methods=['GET', 'POST'])
+def reset_password_email():
+    form = ResetForm_email()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None:
@@ -174,6 +174,45 @@ def reset_password():
         flash('email is not exist')
         return render_template('/auth/reset_password.html', form=form)
     return render_template('/auth/reset_password.html', form=form)
+
+
+@auth.route('/reset_by_tel', methods=['GET', 'POST'])
+def reset_password_tel():
+    form = ResetForm_tel()
+    if request.method == 'POST':
+        user = User.query.filter_by(telnumber=form.telnumber.data).first()
+        if user is None:
+            flash('telnumber is not exist')
+            return render_template('/auth/reset_by_tel.html', form=form)
+        if 'send' in request.form:
+            code = random.randint(1000,9999)
+            text = str(code)
+            session['code'] = text
+            print(text)
+            mobile = form.telnumber.data
+            send_out(text, mobile)
+            return render_template('/auth/reset_by_tel.html', form=form)
+        elif 'submit' in request.form:
+            if form.validatecode.data == session['code']:
+                return redirect(url_for('auth.reset_by_num', mobile=form.telnumber.data))
+            return render_template('/auth/reset_by_tel.html', form=form)
+        return render_template('/auth/reset_by_tel.html', form=form)
+    return render_template('/auth/reset_by_tel.html', form=form)
+
+
+@auth.route('/reset_num/<mobile>', methods=['GET','POST'])
+def reset_by_num(mobile):
+    form = ResetPasswordForm()
+    user = User.query.filter_by(telnumber=mobile).first()
+    if form.validate_on_submit() and user is not None and mobile is not None:
+        user.password = form.newpassword.data
+        db.session.add(user)
+        flash('reset success')
+        return redirect(url_for('auth.login'))
+    if user is None or mobile is None:
+        flash('error, please try again')
+        return redirect(url_for('auth.reset_password_tel'))
+    return render_template('/auth/password_reset.html', form=form, email=mobile)
 
 
 @auth.route('/reset/<token>', methods=['GET', 'POST'])
@@ -188,7 +227,7 @@ def reset_confirm(token):
         return redirect(url_for('auth.login'))
     if user is None or email is None:
         flash('error, please try again')
-        return redirect(url_for('auth.reset_password'))
+        return redirect(url_for('auth.reset_password_email'))
     return render_template('/auth/password_reset.html', form=form, email=email)
 
 
