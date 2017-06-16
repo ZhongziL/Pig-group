@@ -2,8 +2,14 @@ from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 from app import create_app, db
 from app.models import User, Role, Permission, Follow, Comment, Post
+from flask_uploads import configure_uploads, patch_request_class
+from app.auth.views import icon
 
 app = create_app('development')
+
+configure_uploads(app, icon)
+patch_request_class(app, 102400)
+
 manager = Manager(app)
 migrate = Migrate(app, db)
 

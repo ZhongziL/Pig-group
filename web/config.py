@@ -1,8 +1,12 @@
 import os
+from flask_uploads import IMAGES
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'liangzzh'
+
+    UPLOADED_AVATAR_DEST = './app/static/avatar'
+    UPLOADED_AVATAR_ALLOW = IMAGES
 
     MAIL_SERVER = 'smtp.qq.com'
     MAIL_PORT = 465
