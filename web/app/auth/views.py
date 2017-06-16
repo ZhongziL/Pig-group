@@ -3,6 +3,7 @@ from flask import url_for, render_template, redirect, flash, request, session
 from .forms import LoginForm, RegisterForm_email, ChangePasswordForm, EditProfileForm
 from .forms import ChangeEmailForm, ResetPasswordForm, ResetForm_tel, EditProfileAdminForm
 from .forms import LoginForm_telnumber, RegisterForm_telnumber, ResetForm_email
+from .forms import UploadAvatarForm
 from ..models import User
 from sqlalchemy import or_
 from .. import db
@@ -10,7 +11,11 @@ from flask_login import login_user, logout_user, login_required, current_user
 from ..email import send_mail
 from ..decorator import admin_required
 from ..sms import send_out
-import random
+from flask_uploads import UploadSet
+import random, os
+
+
+icon = UploadSet('AVATAR')
 
 
 @auth.before_app_request
@@ -275,3 +280,26 @@ def register_by_tel():
             return render_template('/auth/register_by_tel.html', form=form)
         return render_template('/auth/register_by_tel.html', form=form)
     return render_template('/auth/register_by_tel.html', form=form)
+
+
+@auth.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload():
+    form = UploadAvatarForm()
+    if request.method == 'POST':
+        filename = form.avatar.data.filename
+        old_avatar = current_user.avatar_url
+        if old_avatar is not None:
+            path = os.path.join(os.getcwd(), 'app/static')
+            url = os.path.join(path, old_avatar)
+            if os.path.exists(url):
+                os.remove(url)
+
+        icon.save(form.avatar.data, name = filename)
+        avatar_name = os.path.join('avatar', filename)
+        print(avatar_name)
+        current_user.avatar_url = avatar_name
+        db.session.add(current_user)
+        flash('ok')
+        return redirect(url_for('main.index'))
+    return render_template('/auth/upload.html', form=form, picSrc=current_user.avatar_url)

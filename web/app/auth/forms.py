@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField
+from wtforms import StringField, SubmitField, BooleanField, FileField
 from wtforms.validators import Email, EqualTo, Length, Regexp, DataRequired
 from wtforms import ValidationError
 from ..models import User
@@ -89,3 +89,8 @@ class EditProfileAdminForm(FlaskForm):
     confirmed = BooleanField('confirmed')
     user_detail = StringField('userdetail')
     submit = SubmitField('Submit')
+
+
+class UploadAvatarForm(FlaskForm):
+    avatar = FileField('avatar')
+    submit = SubmitField('Upload')
