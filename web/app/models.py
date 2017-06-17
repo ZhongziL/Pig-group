@@ -46,17 +46,17 @@ class Role(db.Model):
 
 class Follow(db.Model):
     __tablename__ = 'follows'
-    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.username'),
                             primary_key=True)
-    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+    followed_id = db.Column(db.Integer, db.ForeignKey('users.username'),
                             primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), unique=True, index=True)
+    '''id = db.Column(db.Integer, primary_key=True)'''
+    username = db.Column(db.String(64), unique=True, index=True, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     telnumber = db.Column(db.String(16))
@@ -110,20 +110,34 @@ class User(UserMixin, db.Model):
     def checkpassword(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def generation_confirmation_token(self, expiration=3600):
+    def generation_confirmation_token(self, expiration=600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        return s.dumps({'confirm': self.id})
+        return s.dumps({'confirm': self.username})
 
     def confirm(self, token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
+            print(data)
         except:
             return False
-        if data.get('confirm') != self.id:
+        if data.get('confirm') != self.username:
             return False
         self.confirmed = True
         db.session.add(self)
+        return True
+
+    @staticmethod
+    def cancel(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        print(data.get('confirm'))
+        u = User.query.filter_by(username = data.get('confirm')).first()
+        if u is not None:
+            db.session.delete(u)
         return True
 
     def generation_reset_token(self, expiration=3600):
@@ -136,17 +150,17 @@ class User(UserMixin, db.Model):
             db.session.add(f)
 
     def unfollow(self, user):
-        f = self.followed.filter_by(followed_id=user.id).first()
+        f = self.followed.filter_by(followed_id=user.username).first()
         if f:
             db.session.delete(f)
 
     def is_following(self, user):
         return self.followed.filter_by(
-            followed_id=user.id).first() is not None
+            followed_id=user.username).first() is not None
 
     def is_followed_by(self, user):
         return self.followers.filter_by(
-            follower_id=user.id).first() is not None
+            follower_id=user.username).first() is not None
 
     @staticmethod
     def reset_password(token):
@@ -156,6 +170,9 @@ class User(UserMixin, db.Model):
         except:
             return None
         return data.get('email')
+
+    def get_id(self):
+        return self.username
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -173,8 +190,8 @@ login_manager.anonymous_user = AnonymousUser
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+def load_user(username):
+    return User.query.filter_by(username=username).first()
 
 
 class Post(db.Model):
@@ -183,7 +200,7 @@ class Post(db.Model):
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    author_name = db.Column(db.Integer, db.ForeignKey('users.username'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
 
@@ -194,5 +211,5 @@ class Comment(db.Model):
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     disabled = db.Column(db.Boolean)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    author_name = db.Column(db.Integer, db.ForeignKey('users.username'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
