@@ -3,3 +3,5 @@ welcome {{username}}
 use the link below to confirm
 
 {{url_for('auth.confirm', token=token, _external=True)}}
+
+{{url_for('auth.cancel', token=token, _external=True)}}

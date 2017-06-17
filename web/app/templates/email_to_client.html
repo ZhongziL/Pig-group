@@ -4,5 +4,8 @@
 
         <p>please click to confirm</p>
         <p><a href={{url_for('auth.confirm', token=token, _external=True)}}>confirm</a></p>
+
+        <p>if it is not your operator please click</p>
+        <p><a href={{url_for('auth.cancel', token=token, _external=True)}}>cancel register</a></p>
     </body>
 </html>
