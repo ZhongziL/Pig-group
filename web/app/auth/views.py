@@ -1,5 +1,5 @@
 from . import auth
-from flask import url_for, render_template, redirect, flash, request, session
+from flask import url_for, render_template, redirect, flash, request, session, abort
 from .forms import LoginForm, RegisterForm_email, ChangePasswordForm, EditProfileForm
 from .forms import ChangeEmailForm, ResetPasswordForm, ResetForm_tel, EditProfileAdminForm
 from .forms import LoginForm_telnumber, RegisterForm_telnumber, ResetForm_email
@@ -30,6 +30,7 @@ def before():
                 and request.endpoint != 'auth.unconfirmed' \
                 and request.endpoint != 'auth.logout' \
                 and request.endpoint != 'auth.confirm' \
+                and request.endpoint != 'auth.cancel' \
                 and request.endpoint != 'auth.resend_confirm':
             return redirect(url_for('auth.unconfirmed'))
 
@@ -74,9 +75,10 @@ def register():
 
         if user is None:
             u = User(username=username, email=email, password=password)
+            db.session.add(u)
+            db.session.commit()
             token = u.generation_confirmation_token()
             send_mail(email, username, 'email_to_client', token=token, username=u.username)
-            db.session.add(u)
             flash('register success')
             return redirect(url_for('auth.login'))
         else:
@@ -133,6 +135,14 @@ def confirm(token):
         flash('confirmed success')
     else:
         flash('error')
+    return redirect(url_for('main.index'))
+
+
+@auth.route('/cancel/<token>')
+def cancel(token):
+    if User.cancel(token):
+        flash('cancel success')
+    else: flash('ok')
     return redirect(url_for('main.index'))
 
 
@@ -236,11 +246,13 @@ def reset_confirm(token):
     return render_template('/auth/password_reset.html', form=form, email=email)
 
 
-@auth.route('/edit_profile_admin/<int:id>', methods=['GET', 'POST'])
+@auth.route('/edit_profile_admin/<username>', methods=['GET', 'POST'])
 @login_required
 @admin_required
-def edit_profile_admin(id):
-    user = User.query.get_or_404(id)
+def edit_profile_admin(username):
+    user = User.query.filter_by(username = username).first()
+    if user is None:
+        abort(404)
     form = EditProfileAdminForm()
     if form.validate_on_submit():
         user.username = form.username.data
