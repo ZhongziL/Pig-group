@@ -1,8 +1,8 @@
-"""init
+"""initial
 
-Revision ID: a792cccea085
+Revision ID: 45b894fcb613
 Revises: 
-Create Date: 2017-05-29 22:25:50.321849
+Create Date: 2017-06-19 23:55:59.032275
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a792cccea085'
+revision = '45b894fcb613'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,18 +28,18 @@ def upgrade():
     )
     op.create_index(op.f('ix_roles_default'), 'roles', ['default'], unique=False)
     op.create_table('users',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('username', sa.String(length=64), nullable=True),
+    sa.Column('username', sa.String(length=64), nullable=False),
     sa.Column('email', sa.String(length=64), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
     sa.Column('telnumber', sa.String(length=16), nullable=True),
+    sa.Column('avatar_url', sa.String(length=128), nullable=True),
     sa.Column('user_detail', sa.Text(), nullable=True),
     sa.Column('member_seen', sa.DateTime(), nullable=True),
     sa.Column('last_seen', sa.DateTime(), nullable=True),
     sa.Column('confirmed', sa.Boolean(), nullable=True),
     sa.Column('role_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['role_id'], ['roles.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('username')
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
     op.create_index(op.f('ix_users_username'), 'users', ['username'], unique=True)
@@ -47,8 +47,8 @@ def upgrade():
     sa.Column('follower_id', sa.Integer(), nullable=False),
     sa.Column('followed_id', sa.Integer(), nullable=False),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['followed_id'], ['users.id'], ),
-    sa.ForeignKeyConstraint(['follower_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['followed_id'], ['users.username'], ),
+    sa.ForeignKeyConstraint(['follower_id'], ['users.username'], ),
     sa.PrimaryKeyConstraint('follower_id', 'followed_id')
     )
     op.create_table('posts',
@@ -56,8 +56,8 @@ def upgrade():
     sa.Column('body', sa.Text(), nullable=True),
     sa.Column('body_html', sa.Text(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
-    sa.Column('author_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
+    sa.Column('author_name', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['author_name'], ['users.username'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_posts_timestamp'), 'posts', ['timestamp'], unique=False)
@@ -67,9 +67,9 @@ def upgrade():
     sa.Column('body_html', sa.Text(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
     sa.Column('disabled', sa.Boolean(), nullable=True),
-    sa.Column('author_id', sa.Integer(), nullable=True),
+    sa.Column('author_name', sa.Integer(), nullable=True),
     sa.Column('post_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['author_name'], ['users.username'], ),
     sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

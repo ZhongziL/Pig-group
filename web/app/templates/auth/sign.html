@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sign in</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!--<link rel="Icon" href="./logo.png">-->
+        <link href={{url_for('static', filename="css/signin.css")}} type="text/css"  rel="stylesheet" media="screen" />
+	</head>
+
+	<body>
+        <div id="BgPicture">
+            <img src={{url_for('static', filename="images/pixa.jpg")}}>
+        </div>
+        <div id="SigninForm">
+            <div id="header">
+                <h1>逼乎</h1>
+                <h2>与世界分享你装的逼</h2>
+            </div>
+            <div id="info">
+                <form method="post">
+                    {{form.csrf_token}}
+                    <h3>用户登录</h3>
+                    <!--<label for="user">手机号/邮箱/用户名</label><br>-->
+                    <input type="text" name="username_email" placeholder="手机号/邮箱/用户名" /><br>
+                    <!--<label for="password">密码</label>-->
+                    <a href="">忘记密码?</a><br>
+                    <input type="text" name="password" placeholder="密码" /><br>
+                    <!--{{form.submit}}-->
+                    <input type="submit" name="submit" id="submitBtn" value="登录" />
+
+                    <a href={{url_for('auth.register')}}>注册</a>
+                </form>
+            </div>
+        </div>
+            
+	</body>
+</html>

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, FileField
+from wtforms import StringField, SubmitField, BooleanField, FileField, RadioField
 from wtforms.validators import Email, EqualTo, Length, Regexp, DataRequired
 from wtforms import ValidationError
 from ..models import User
@@ -14,20 +14,15 @@ class LoginForm_telnumber(FlaskForm):
     password = StringField('password', validators=[DataRequired()])
     submit = SubmitField('Log In')
 
-class RegisterForm_email(FlaskForm):
-    username = StringField('username', validators=[DataRequired()])
-    email = StringField('email', validators=[DataRequired()])
-    password = StringField('password', validators=[DataRequired()])
+class RegisterForm(FlaskForm):
+    username = StringField('username')
+    email = StringField('email')
+    telnumber = StringField('telnumber')
+    send = SubmitField('Send Message')
+    code = StringField('code')
+    password = StringField('password')
     password_confirm = StringField('confirm_password')
     submit = SubmitField('Register')
-
-    def validate_username(self, field):
-        if User.query.filter_by(username=field.data).first():
-            raise ValidationError('username is already exist')
-
-    def validate_email(self, field):
-        if User.query.filter_by(email=field.data).first():
-            raise ValidationError('email address has already been registered')
 
 class RegisterForm_telnumber(FlaskForm):
     username = StringField('username', validators=[DataRequired()])

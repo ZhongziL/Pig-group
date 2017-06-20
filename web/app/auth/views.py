@@ -1,6 +1,6 @@
 from . import auth
 from flask import url_for, render_template, redirect, flash, request, session, abort
-from .forms import LoginForm, RegisterForm_email, ChangePasswordForm, EditProfileForm
+from .forms import LoginForm, RegisterForm, ChangePasswordForm, EditProfileForm
 from .forms import ChangeEmailForm, ResetPasswordForm, ResetForm_tel, EditProfileAdminForm
 from .forms import LoginForm_telnumber, RegisterForm_telnumber, ResetForm_email
 from .forms import UploadAvatarForm
@@ -58,34 +58,53 @@ def login():
             return redirect(request.args.get('next') or url_for('main.index'))
         else:
             flash('username or password error')
-            return render_template('/auth/login.html', form=form)
+            return render_template('/auth/sign.html', form=form)
     else:
-        return render_template('/auth/login.html', form=form)
+        return render_template('/auth/sign.html', form=form)
 
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm_email()
-    if form.validate_on_submit():
-        username = form.username.data
-        password = form.password.data
-        email = form.email.data
-
-        user = User.query.filter(or_(User.username == username, User.email == email)).first()
-
-        if user is None:
-            u = User(username=username, email=email, password=password)
-            db.session.add(u)
-            db.session.commit()
-            token = u.generation_confirmation_token()
-            send_mail(email, username, 'email_to_client', token=token, username=u.username)
-            flash('register success')
-            return redirect(url_for('auth.login'))
+    form = RegisterForm()
+    if request.method == 'POST':
+        if(request.values.get('by') == 'Phone'):
+            checked = ['checked', ' ']
+            if 'send' in request.form:
+                code = random.randint(1000, 9999)
+                text = str(code)
+                session['code'] = text
+                print(text)
+                mobile = form.telnumber.data
+                send_out(text, mobile)
+                return render_template('/auth/signup.html', form=form, checked=checked)
+            elif 'submit' in request.form:
+                if form.code.data == session['code']:
+                    user = User(username=form.username.data, telnumber=form.telnumber.data,
+                                password=form.password.data, confirmed=True)
+                    db.session.add(user)
+                    return redirect(url_for('auth.login'))
+                return render_template('/auth/signup.html', form=form, checked=checked)
         else:
-            flash('username or email is already existed')
-            return render_template('/auth/register.html', form=form)
+            checked = [' ', 'checked']
+            username = form.username.data
+            password = form.password.data
+            email = form.email.data
+
+            user = User.query.filter(or_(User.username == username, User.email == email)).first()
+
+            if user is None:
+                u = User(username=username, email=email, password=password)
+                db.session.add(u)
+                db.session.commit()
+                token = u.generation_confirmation_token()
+                send_mail(email, username, 'email_to_client', token=token, username=u.username)
+                flash('register success')
+                return redirect(url_for('auth.login'))
+            else:
+                flash('username or email is already existed')
+                return render_template('/auth/signup.html', form=form, checked=checked)
     else:
-        return render_template('/auth/register.html', form=form)
+        return render_template('/auth/signup.html', form=form, checked = ['checked',' '])
 
 
 @auth.route('/logout')
