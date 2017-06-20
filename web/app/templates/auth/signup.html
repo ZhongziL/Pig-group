@@ -4,14 +4,18 @@
 		<title>Sign up</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <!--<link rel="Icon" href="./logo.png">-->
-        <link href={{url_for('static', filename="css/signup.css")}} type="text/css"  rel="stylesheet" media="screen" />
+        <!--<link href={{url_for('static', filename="css/signup.css")}} type="text/css"  rel="stylesheet" media="screen" />
         <script type="text/javascript" src={{url_for('static', filename="js/jquery.js")}}></script>
-        <script type="text/javascript" src={{url_for('static', filename="js/signup.js")}}></script>
+        <script type="text/javascript" src={{url_for('static', filename="js/signup.js")}}></script>-->
+        <link rel="stylesheet" href="../../static/css/signup.css">
+        <script type="text/javascript" src="../../static/js/jquery.js"></script>
+        <script type="text/javascript" src="../../static/js/signup.js"></script>
 	</head>
 
 	<body>
         <div id="BgPicture">
-            <img src={{url_for('static', filename="images/pixa.jpg")}}>
+            <!--<img src={{url_for('static', filename="images/pixa.jpg")}}>-->
+            <img src="../../static/images/pixa.jpg" alt="">
         </div>
         <div id="SigninForm">
             <div id="header">
@@ -20,33 +24,43 @@
             </div>
             <div id="info">
                 <form method="post">
-                    {{form.csrf_token}}
+                    <!--{{form.csrf_token}}-->
                     <h3>用户注册</h3>
 
-                    {{form.username(placeholder="用户名")}}<br>
-                    <!--<input type="text" name="username" value="" placeholder="用户名"/><br>-->
-
+                    <!--{{form.username(placeholder="用户名")}}<br>-->
+                    <input type="text" name="username" id="username" value="" placeholder="用户名"/><br>
+                    <label id="errorUsername">请输入用户名</label>
                     <div id="select">
-                        <label for="byPhone"><input type="radio" name="by" id="byPhone" class="select" value="Phone" {{checked[0]}}>用手机号注册</label>
+                        <label for="byPhone"><input type="radio" name="by" id="byPhone" class="select" value="Phone" {{checked[0]}} checked="">用手机号注册</label>
                         <label for="byEmail"><input type="radio" name="by" id="byEmail" class="select" value="Email" {{checked[1]}}>用邮箱注册</label><br>
                     </div>
 
                     <div id="phoneMethod">
-                        {{form.telnumber(placeholder="手机号")}}
-                        <!--<input type="text" name="telnumber" id="telnumber" value="" placeholder="手机号"/>-->
+                        <!--{{form.telnumber(placeholder="手机号")}}-->
+                        <input type="text" name="telnumber" id="telnumber" value="" placeholder="手机号"/>
+                        <label id="errorPhone">请输入手机号</label>
                         <span><input type="text" name="code" id="idcode" value="" placeholder="验证码"/></span>
                         <span><input type="submit" name="send" id="idcodeBtn" value="获取验证码" /></span><br>
+                        <label id="errorCode">请输入验证码</label>
                     </div>
 
                     <div id="emailMethod">
-                        {{form.email(placeholder="邮箱地址")}}
-                        <!--<input type="text" name="email" id="email" value="" placeholder="邮箱地址"/>-->
+                        <!--{{form.email(placeholder="邮箱地址")}}-->
+                        <input type="text" name="email" id="email" value="" placeholder="邮箱地址"/>
+                        <label id="errorEmail">请输入邮箱</label>
                     </div>
 
-                    <input type="text" name="password" value="" placeholder="密码"/>
-                    <input type="text" name="password_confirm" value="" placeholder="queren密码"/>
+                    <input type="text" name="password" id="password" value="" placeholder="密码(不少于6位)"/>
+                    <label id="errorPassword">请输入密码</label>
+                    <input type="text" name="password_confirm" id="password_confirm" value="" placeholder="再次输入密码"/>
+                    <label id="errorPasswordConfirm">再次输入密码</label>
                     <input type="submit" name="submit" id="submitBtn" value="注册" />
                 </form>
+            </div>
+            <div id="link">
+                <span><a href="./index.html">返回首页</a></span>
+                <span><p>|</p></span>
+                <span><a href="./signin.html">用户登录</a></span>
             </div>
         </div>
             

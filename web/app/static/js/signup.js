@@ -11,10 +11,88 @@ $(function () {
         $('#emailMethod').css("display", "block");
     });
 
-    $("#submitBtn").on("click", function () {
-        alert('adsa');
-        return false;
+    $("#username").on("click", function () {
+        $("#errorUsername").css("visibility", "hidden");
     });
+
+    $("#telnumber").on("click", function () {
+        $("#errorPhone").css("visibility", "hidden");
+    });
+
+    $("#idcode").on("click", function () {
+        $("#errorCode").css("visibility", "hidden");
+    });
+
+    $("#email").on("click", function () {
+        $("#errorEmail").css("visibility", "hidden");
+    });
+
+    $("#password").on("click", function () {
+        $("#errorPassword").css("visibility", "hidden");
+    });
+
+    $("#password_confirm").on("click", function () {
+        $("#errorPasswordConfirm").css("visibility", "hidden");
+    });
+
+    $("#submitBtn").on("click", function () {
+        $("#errorPasswordConfirm").html('再次输入密码');
+        var iscorrect = true;
+        var username = $('#username').val();
+        // username
+        if (username === '') {
+            iscorrect = false;
+            //$("#errorUsername").css("display", "block");
+            $("#errorUsername").css("visibility", "visible");
+            
+        }
+
+        // phone
+        var phonePattern = /^1[0-9]{10}/;
+        var phone = $('#telnumber').val();
+        if (!(phonePattern.test(phone))) {
+            iscorrect = false;
+            $("#errorPhone").css("visibility", "visible");
+        }
+
+        // code
+        var code = $("#idcode").val();
+        if (code === '') {
+            iscorrect = false;
+            $("#errorCode").css("visibility", "visible");
+        }
+        // email
+        var emailPattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        var email = $("#email").val();
+        if (!(emailPattern.test(email))) {
+            iscorrect = false;
+            $("#errorEmail").css("visibility", "visible");
+        }
+
+        // password
+        var password = $("#password").val();
+        if (password.length < 6) {
+            iscorrect = false;
+            $("#errorPassword").css("visibility", "visible");
+        }
+
+        // confirm password
+        var password_confirm = $("#password_confirm").val();
+        if (password_confirm.length < 6) {
+            iscorrect = false;
+            $("#errorPasswordConfirm").css("visibility", "visible");
+        }
+
+        if (password !== password_confirm) {
+            iscorrect = false;
+            $("#errorPasswordConfirm").css("visibility", "visible");
+            $("#errorPasswordConfirm").html('密码不一致');
+        }
+
+        return iscorrect;
+    });
+
+
 });
 
 window.onload = function() {
