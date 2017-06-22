@@ -1,14 +1,25 @@
 $(function () {
+    var hiddentag = function() {
+        $("#errorUsername").css("visibility", "hidden");
+        $("#errorPhone").css("visibility", "hidden");
+        $("#errorCode").css("visibility", "hidden");
+        $("#errorEmail").css("visibility", "hidden");
+        $("#errorPassword").css("visibility", "hidden");
+        $("#errorPasswordConfirm").css("visibility", "hidden");
+    }
+
     $("#byPhone").on("click", function () {
         $('#byEmail').attr('checked', false);
         $('#phoneMethod').css("display", "block");
         $('#emailMethod').css("display", "none");
+        hiddentag()
     });
 
     $("#byEmail").on("click", function () {
         $('#byPhone').attr('checked', false);
         $('#phoneMethod').css("display", "none");
         $('#emailMethod').css("display", "block");
+        hiddentag()
     });
 
     $("#username").on("click", function () {
@@ -35,9 +46,29 @@ $(function () {
         $("#errorPasswordConfirm").css("visibility", "hidden");
     });
 
+    $("#idcodeBtn").on("click", function() {
+        var iscorrect = true;
+        var phonePattern = /^1[0-9]{10}/;
+        var phone = $('#telnumber').val();
+        if (!(phonePattern.test(phone))) {
+            iscorrect = false;
+            $("#errorPhone").css("visibility", "visible");
+        }
+        return iscorrect;
+    });
+
     $("#submitBtn").on("click", function () {
         $("#errorPasswordConfirm").html('再次输入密码');
         var iscorrect = true;
+
+        var isPhoneChecked = $("#byPhone").attr('checked')
+        var PhoneSelect = true;
+        if(isPhoneChecked == 'checked') {
+            PhoneSelect = true;
+        } else {
+            PhoneSelect = false;
+        }
+
         var username = $('#username').val();
         // username
         if (username === '') {
@@ -50,21 +81,21 @@ $(function () {
         // phone
         var phonePattern = /^1[0-9]{10}/;
         var phone = $('#telnumber').val();
-        if (!(phonePattern.test(phone))) {
+        if (PhoneSelect && !(phonePattern.test(phone))) {
             iscorrect = false;
             $("#errorPhone").css("visibility", "visible");
         }
 
         // code
         var code = $("#idcode").val();
-        if (code === '') {
+        if (PhoneSelect && code === '') {
             iscorrect = false;
             $("#errorCode").css("visibility", "visible");
         }
         // email
         var emailPattern = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
         var email = $("#email").val();
-        if (!(emailPattern.test(email))) {
+        if (!PhoneSelect && !(emailPattern.test(email))) {
             iscorrect = false;
             $("#errorEmail").css("visibility", "visible");
         }
