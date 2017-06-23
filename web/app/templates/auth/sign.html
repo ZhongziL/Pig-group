@@ -23,7 +23,7 @@
                     <!--<label for="user">手机号/邮箱/用户名</label><br>-->
                     <input type="text" name="username_email" placeholder="手机号/邮箱/用户名" /><br>
                     <!--<label for="password">密码</label>-->
-                    <a href="">忘记密码?</a><br>
+                    <a href={{url_for('auth.retrivepassword')}}>忘记密码?</a><br>
                     <input type="text" name="password" placeholder="密码" /><br>
                     <!--{{form.submit}}-->
                     <input type="submit" name="submit" id="submitBtn" value="登录" />

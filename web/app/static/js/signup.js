@@ -1,4 +1,12 @@
 $(function () {
+    var isPhoneChecked = $("#byPhone").attr('checked')
+    var PhoneSelect = true;
+    if(isPhoneChecked == 'checked') {
+        PhoneSelect = true;
+    } else {
+        PhoneSelect = false;
+    }
+
     var hiddentag = function() {
         $("#errorUsername").css("visibility", "hidden");
         $("#errorPhone").css("visibility", "hidden");
@@ -9,6 +17,7 @@ $(function () {
     }
 
     $("#byPhone").on("click", function () {
+        PhoneSelect = true;
         $('#byEmail').attr('checked', false);
         $('#phoneMethod').css("display", "block");
         $('#emailMethod').css("display", "none");
@@ -16,6 +25,7 @@ $(function () {
     });
 
     $("#byEmail").on("click", function () {
+        PhoneSelect = false;
         $('#byPhone').attr('checked', false);
         $('#phoneMethod').css("display", "none");
         $('#emailMethod').css("display", "block");
@@ -60,14 +70,6 @@ $(function () {
     $("#submitBtn").on("click", function () {
         $("#errorPasswordConfirm").html('再次输入密码');
         var iscorrect = true;
-
-        var isPhoneChecked = $("#byPhone").attr('checked')
-        var PhoneSelect = true;
-        if(isPhoneChecked == 'checked') {
-            PhoneSelect = true;
-        } else {
-            PhoneSelect = false;
-        }
 
         var username = $('#username').val();
         // username
