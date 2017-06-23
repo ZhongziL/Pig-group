@@ -21,7 +21,7 @@
 #SigninForm {
 	width: 42%;
 	float: left;
-	margin: 10% 29%;
+	margin: 6% 29%;
 
 	background-color: rgba(255, 255, 255, 0.95);
 
@@ -48,7 +48,6 @@
 #info form {
 	margin-top: 5%;
 	margin-left: 18%;
-	margin-bottom: 5%;
 
 	color: rgb(128, 128, 128);
 	font-size: 1.2em;
@@ -60,6 +59,24 @@
 	margin-bottom: 2%;
 }
 
+#flash_alert {
+	width: 78.3%;
+	border: 1px solid rgb(180, 100, 100);
+	background-color: pink;
+	color: rgb(180, 100, 100);
+}
+
+#msgBtn {
+	width: 5%;
+	font-size: 1em;
+	background-color: pink;
+	float: right;
+	margin-right: 2%;
+
+	color: rgb(180, 100, 100);
+	border-style: none;
+}
+
 #info form input {
 	width: 78%;
 	height: 25px;
@@ -69,8 +86,9 @@
 }
 
 #info a {
+	float: right;
 	color: rgb(128, 128, 128);
-	margin-left: 50%;
+	margin-right: 22%;
 }
 
 #submitBtn {
@@ -81,4 +99,24 @@
 	color: white;
 	border-style: none;
 	border-radius: 0.3em;
+}
+
+
+#link {
+	width: 25%;
+	margin: 3% auto;
+}
+
+#link a {
+	float: left;
+	color: rgb(128, 128, 128);
+	text-decoration: none;
+	font-size: 1em;
+}
+
+#link p {
+	font-size: 1em;
+	float: left;
+	color: rgb(128, 128, 128);
+	margin: 0 3%;
 }
