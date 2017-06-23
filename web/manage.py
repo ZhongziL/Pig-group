@@ -4,12 +4,14 @@ from app import create_app, db
 from app.models import User, Role, Permission, Follow, Comment, Post
 from flask_uploads import configure_uploads, patch_request_class
 from app.auth.views import icon
+from flask_moment import Moment
 
 app = create_app('development')
 
 configure_uploads(app, icon)
 patch_request_class(app, 102400)
 
+moment = Moment(app)
 manager = Manager(app)
 migrate = Migrate(app, db)
 
