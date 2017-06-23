@@ -59,7 +59,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    telnumber = db.Column(db.String(16))
+    telnumber = db.Column(db.String(16), unique=True, index=True)
     avatar_url = db.Column(db.String(128))
     user_detail = db.Column(db.Text())
     member_seen = db.Column(db.DateTime(), default=datetime.utcnow)
@@ -200,7 +200,7 @@ class Post(db.Model):
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    author_name = db.Column(db.Integer, db.ForeignKey('users.username'))
+    author_name = db.Column(db.String(64), db.ForeignKey('users.username'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
 
