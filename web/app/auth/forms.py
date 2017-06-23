@@ -5,13 +5,13 @@ from wtforms import ValidationError
 from ..models import User
 
 class LoginForm(FlaskForm):
-    username_email = StringField('username_email', validators=[DataRequired()])
-    password = StringField('password', validators=[DataRequired()])
+    username_email = StringField('username_email')
+    password = StringField('password')
     submit = SubmitField('Log In')
 
 class LoginForm_telnumber(FlaskForm):
-    telnumber = StringField('telnumber', validators=[DataRequired(), Length(11), Regexp('^[1-9][0-9]*&')])
-    password = StringField('password', validators=[DataRequired()])
+    telnumber = StringField('telnumber')
+    password = StringField('password')
     submit = SubmitField('Log In')
 
 class RegisterForm(FlaskForm):
@@ -42,9 +42,9 @@ class RegisterForm_telnumber(FlaskForm):
             raise ValidationError('telnumber has already been registered')
 
 class ChangePasswordForm(FlaskForm):
-    oldpassword = StringField('oldpassword', validators=[DataRequired()])
-    newpassword = StringField('newpassword', validators=[DataRequired()])
-    password_again = StringField('password_again', validators=[DataRequired()])
+    oldpassword = StringField('oldpassword')
+    newpassword = StringField('newpassword')
+    password_again = StringField('password_again')
     submit = SubmitField('Change Confirm')
 
 
@@ -54,33 +54,33 @@ class EditProfileForm(FlaskForm):
 
 
 class ChangeEmailForm(FlaskForm):
-    new_email = StringField('email', validators=[DataRequired()])
-    password = StringField('password', validators=[DataRequired()])
+    new_email = StringField('email')
+    password = StringField('password')
     submit = SubmitField('Change Email')
 
 
 class ResetForm_email(FlaskForm):
-    email = StringField('email', validators=[DataRequired()])
+    email = StringField('email')
     submit = SubmitField('Reset Password')
 
 
 class ResetForm_tel(FlaskForm):
-    telnumber = StringField('telnumber', validators=[DataRequired()])
+    telnumber = StringField('telnumber')
     send = SubmitField('Send Message')
-    validatecode = StringField('code', validators=[DataRequired()])
+    validatecode = StringField('code')
     submit = SubmitField('Reset Password')
 
 
 class ResetPasswordForm(FlaskForm):
-    newpassword = StringField('newpassword', validators=[DataRequired()])
-    password_again = StringField('password_again', validators=[DataRequired()])
+    newpassword = StringField('newpassword')
+    password_again = StringField('password_again')
     submit = SubmitField('Change Confirm')
 
 
 class EditProfileAdminForm(FlaskForm):
-    username = StringField('username', validators=[DataRequired()])
-    email = StringField('email', validators=[DataRequired()])
-    telnumber = StringField('telnumber', validators=[DataRequired(), Length(11), Regexp('^[1-9][0-9]*&')])
+    username = StringField('username')
+    email = StringField('email')
+    telnumber = StringField('telnumber')
     confirmed = BooleanField('confirmed')
     user_detail = StringField('userdetail')
     submit = SubmitField('Submit')

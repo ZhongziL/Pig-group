@@ -58,9 +58,9 @@ def login():
             return redirect(request.args.get('next') or url_for('main.index'))
         else:
             flash('username or password error')
-            return render_template('/auth/sign.html', form=form)
+            return render_template('/auth/signin.html', form=form)
     else:
-        return render_template('/auth/sign.html', form=form)
+        return render_template('/auth/signin.html', form=form)
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -81,12 +81,14 @@ def register():
                     return render_template('/auth/signup.html', form=form, checked=checked)
                 session['mobile'] = mobile
                 send_out(text, mobile)
+                flash("message has been send")
                 return render_template('/auth/signup.html', form=form, checked=checked)
             elif 'submit' in request.form:
                 if form.code.data == session['code']:
                     user = User(username=form.username.data, telnumber=session['mobile'],
                            password=form.password.data, confirmed=True)
                     db.session.add(user)
+                    flash("register success")
                     return redirect(url_for('auth.login'))
                 return render_template('/auth/signup.html', form=form, checked=checked)
         else:
@@ -278,8 +280,8 @@ def reset_by_num(mobile):
         return redirect(url_for('auth.login'))
     if user is None or mobile is None:
         flash('error, please try again')
-        return redirect(url_for('auth.reset_password_tel'))
-    return render_template('/auth/password_reset.html', form=form, email=mobile)
+        return redirect(url_for('auth.retrivepassword'))
+    return render_template('/auth/retrivepage.html', form=form, email=mobile)
 
 
 @auth.route('/reset/<token>', methods=['GET', 'POST'])
@@ -294,8 +296,8 @@ def reset_confirm(token):
         return redirect(url_for('auth.login'))
     if user is None or email is None:
         flash('error, please try again')
-        return redirect(url_for('auth.reset_password_email'))
-    return render_template('/auth/password_reset.html', form=form, email=email)
+        return redirect(url_for('auth.retrivepassword'))
+    return render_template('/auth/retrivepage.html', form=form, email=email)
 
 
 @auth.route('/edit_profile_admin/<username>', methods=['GET', 'POST'])
