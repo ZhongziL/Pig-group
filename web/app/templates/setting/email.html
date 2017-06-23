@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>profile</title>
+	<title>email</title>
     <link href="../css/profile.css" type="text/css"  rel="stylesheet" media="screen" />
     <script type="text/javascript" src="../js/jquery.js"></script>
-    <script type="text/javascript" src="../js/profile.js"></script>
+    <script type="text/javascript" src="../js/email.js"></script>
 </head>
 <body>
 	<div id="bgPicture">
@@ -29,24 +29,19 @@
 
     <div id="leftTitle">
         <ul>
-            <li class="selected"><a href="profile.html" style="padding-left: 7%">基本资料</a></li>
+            <li class="other"><a href="profile.html" style="padding-left: 15%">基本资料</a></li>
             <li class="other"><a href="phone.html">手机</a></li>
-            <li class="other"><a href="email.html">邮箱</a></li>
+            <li class="selected"><a href="email.html">邮箱</a></li>
             <li class="other"><a href="password.html">密码</a></li>
         </ul>
     </div>
 
     <div id="rightDetail">
         <form method="post">
-            <div id="changeNickname">
-                <label class="nickname">昵称</label>
-                <input id="inputNick" type="text" name="inputNick" placeholder="输入昵称">
-                <label id="errorNick" class="error-is-visible">昵称不能为空</label>
-            </div>
-
-            <div id="changIcon">
-                <img id="iconImage" src="../image/avatar.jpg">
-                <p>修改头像 <input id="upload" type="file" name="icon"></p>
+            <div id="changeEmail">
+                <label class="email">邮箱</label>
+                <input id="inputEmail" type="text" name="inputEmail" placeholder="输入邮箱">
+                <label id="errorEmail" class="error-is-visible">请输入邮箱</label>
             </div>
 
             <input type="submit" name="save" id="saveButton" value="保存" />
