@@ -290,7 +290,7 @@ def reset_confirm(token):
     form = ResetPasswordForm()
     user = User.query.filter_by(email=email).first()
     if form.validate_on_submit() and user is not None and email is not None:
-        user.password = form.newpassword.data
+        user.password = form.password.data
         db.session.add(user)
         flash('reset success')
         return redirect(url_for('auth.login'))

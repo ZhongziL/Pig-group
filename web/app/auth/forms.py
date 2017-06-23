@@ -72,7 +72,7 @@ class ResetForm_tel(FlaskForm):
 
 
 class ResetPasswordForm(FlaskForm):
-    newpassword = StringField('newpassword')
+    password = StringField('password')
     password_again = StringField('password_again')
     submit = SubmitField('Change Confirm')
 
