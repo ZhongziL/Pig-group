@@ -26,6 +26,14 @@
                 <form method="post">
                     {{form.csrf_token}}
                     <h3>用户注册</h3>
+                    <div id="flash_alert">
+                        {% for message in get_flashed_messages()%}
+                        <div id="alert">
+                            {{message}}
+                            <button type="button" id="msgBtn" class="close" data-dismiss="alert">X</button>
+                        </div>
+                        {%endfor%}
+                    </div>
 
                     {{form.username(placeholder="用户名")}}<br>
                     <!--<input type="text" name="username" id="username" value="" placeholder="用户名"/><br>-->
