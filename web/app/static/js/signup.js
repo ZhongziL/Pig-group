@@ -24,6 +24,10 @@ $(function () {
         hiddentag()
     });
 
+    $(".close").on('click', function() {
+        $("#alert").css("display", "none");
+    });
+
     $("#byEmail").on("click", function () {
         PhoneSelect = false;
         $('#byPhone').attr('checked', false);

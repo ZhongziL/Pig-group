@@ -41,6 +41,10 @@ $(function () {
         $("#errorEmail").css("visibility", "hidden");
     });
 
+    $(".close").on('click', function() {
+        $("#alert").css("display", "none");
+    });
+
     $("#idcodeBtn").on("click", function() {
         var iscorrect = true;
         var phonePattern = /^1[0-9]{10}/;
