@@ -42,7 +42,7 @@ $(function () {
     });
 
     $(".close").on('click', function() {
-        $("#alert").css("display", "none");
+        $("#flash_alert").css("display", "none");
     });
 
     $("#idcodeBtn").on("click", function() {
