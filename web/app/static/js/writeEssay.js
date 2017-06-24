@@ -1,17 +1,26 @@
 $(function () {
 	$('#title').on('click', function () {
-		$('#title').val('');
-		$('#title').removeClass('showerror');
+	    if ($('#title').hasClass('showerror')) {
+	        $('#title').val('');
+		    $('#title').removeClass('showerror');
+	    }
 	});
 
 	$('#context').on('click', function () {
-		$('#context').val('');
-		$('#context').removeClass('showerror');
+	    if ($('#context').hasClass('showerror')) {
+            $('#context').val('');
+            $('#context').removeClass('showerror');
+	    }
 	});
 
 	// if submit or not
 	$("#submitBtn").on("click", function () {
 		var iscorrect = true;
+
+		// check if the title and context are null or not
+		if ($('#context').hasClass('showerror') || $('#title').hasClass('showerror')) {
+		    iscorrect = false;
+		}
 
 		// check if the title is null or not
 		var title = $('#title').val();

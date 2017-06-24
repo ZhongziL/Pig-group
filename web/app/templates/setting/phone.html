@@ -26,6 +26,7 @@
         <div class="subBox right"></div>
         <div class="subBox right"></div>
         <div class="subBox right avatar"><img src={{url_for('static', filename=picSrc)}} alt=""></div>
+        <div class="subBox right logout"><a href={{url_for('auth.logout')}}>退出</a></div>
         <div class="subBox right"><a href={{url_for('main.user', name=user.username)}}>账号</a></div>
         <div class="subBox right"><a href={{url_for('auth.edit_profile')}}>设置</a></div>
     </div>
@@ -58,7 +59,7 @@
                 <label id="errorPhone" class="error-is-visible">请输入手机号</label>
                 <p>
                     <span><input type="submit" name="send" id="idcodeBtn" value="获取验证码" /></span>
-                    <span><input id="inputVcode" type="text" name="code" id="idcode" value="" placeholder="验证码"/></span>
+                    <span><input id="inputVcode" type="text" name="inputVcode" value="" placeholder="验证码"/></span>
                     <span id="errorCode" class="error-is-visible">请输入验证码</span><br>
                 </p>
             </div>

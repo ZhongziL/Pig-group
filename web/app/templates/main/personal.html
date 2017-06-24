@@ -36,10 +36,10 @@
         <div id="infor">
             <p id="username">{{user.username}}</p>
             {% if user.email %}
-            <p class="other"><span>手机</span><span class="detailValue">{{user.email}}</span></p>
+            <p class="other"><span>邮箱</span><span class="detailValue">{{user.email}}</span></p>
             {% endif %}
             {% if user.telnumber %}
-            <p class="other"><span>邮箱</span><span class="detailValue">{{user.telnumber}}</span></p>
+            <p class="other"><span>手机</span><span class="detailValue">{{user.telnumber}}</span></p>
             {% endif %}
             <!--<p class="other"><span>个人介绍</span><span class="detailValue">我要gg了</span></p>-->
         </div>
@@ -48,13 +48,13 @@
         <div id="toSetting">
             <a href={{url_for('auth.edit_profile')}}><button id="jump" type="button">修改个人设置</button></a>
         </div>
-        {% else if cuser.is_following(user) %}
+        {% elif cuser.is_following(user) %}
         <div id="toSetting">
-            <a href={{url_for('main.follow', username=user.username)}} ><button id="jump" type="button">关注他</button></a>
+            <a href={{url_for('main.follow', username=user.username)}} ><button id="jump" type="button">取消关注</button></a>
         </div>
         {% else %}
         <div id="toSetting">
-            <a href={{url_for('main.unfollow', username=user.username)}} ><button id="jump" type="button">取消关注</button></a>
+            <a href={{url_for('main.unfollow', username=user.username)}} ><button id="jump" type="button">关注他</button></a>
         </div>
         {% endif %}
     </div>

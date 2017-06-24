@@ -4,7 +4,7 @@ from wtforms import StringField, SubmitField, FileField, TextAreaField
 class PostForm(FlaskForm):
     title = StringField('title')
     picture = FileField('picture')
-    content = TextAreaField('body')
+    context = TextAreaField('body')
     submit = SubmitField('submit')
 
 class CommentForm(FlaskForm):

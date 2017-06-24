@@ -15,8 +15,10 @@ def inject_permission():
 def index():
     if current_user.is_authenticated :
         picSrc = current_user.avatar_url
+        username=current_user.username
     else:
         picSrc = "avatar/head.png"
+        username=" "
     # page = request.args.get('page', 1, type=int)
     # pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=20, error_out=False)
     # posts = pagination.items
@@ -27,7 +29,7 @@ def index():
     else:
         onshows = posts
     return render_template('main/index.html', posts=posts,
-                           onshows=onshows, username=current_user.username, picSrc=picSrc)
+                           onshows=onshows, username=username, picSrc=picSrc)
 
 
 @main.route('/user/<name>')
@@ -47,7 +49,7 @@ def user(name):
     # posts = pagination.items
     followeds = u.followed.all()
     followers = u.followers.all()
-    return render_template('profile.html', user=u, articles=posts, answers=list,cuser=current_user,
+    return render_template('main/personal.html', user=u, articles=posts, answers=list,cuser=current_user,
                            followeds=followeds, followers=followers)
 
 
@@ -57,10 +59,12 @@ def writeEssay():
     form = PostForm()
     if form.validate_on_submit():
         title = form.title.data
-        content = form.content.data
-        post = Post(body=title, body_html=content, good_count=0, author_name=current_user.username)
-        db.session.add(post)
-        return redirect(url_for('main.index'))
+        content = form.context.data
+        if title != "" and content != "":
+            post = Post(body=title, body_html=content, good_count=0, author_name=current_user.username)
+            db.session.add(post)
+            return redirect(url_for('main.index'))
+        return redirect(url_for('main.writeEssay'))
     return render_template('main/writeEssay.html', form=form, username=current_user.username, picSrc=current_user.avatar_url)
 
 
@@ -82,6 +86,13 @@ def recommend():
 def question(id):
     form = CommentForm()
     post = Post.query.get_or_404(id)
+    if form.validate_on_submit():
+        comment = form.ansText.data
+        if comment != "":
+            c = Comment(body=comment, author_name=current_user.username, post_id=post.id, good_count=0)
+            db.session.add(c)
+            return redirect(url_for('main.question', id=post.id))
+
     comments = post.comments.all()
     number = Post.query.count()
     posts = Post.query.all()

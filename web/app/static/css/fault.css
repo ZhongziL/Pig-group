@@ -41,10 +41,6 @@
     text-decoration: none;
 }
 
-#banner .home a, .right a {
-    color: rgb(0, 159, 171);
-}
-
 #banner .right {
     float: right;
 }
@@ -86,15 +82,23 @@
 
 }
 
-#infor1, #infor2 {
+#infor1, #infor2, #infor3 {
     font-family: Microsoft YaHei;
     font-size: 20px;
 }
 
-#infor1 {
+#infor1, #infor3 {
     margin-left: 40%;
 }
 
 #infor2 {
     margin-left: 36%;
 }
+
+#errorConfirm {
+    font-family: Microsoft YaHei;
+    font-size: 50px;
+
+    margin-left: 15%;
+}
+

@@ -63,7 +63,7 @@ class ChangeEmailForm(FlaskForm):
 class ChangeTelForm(FlaskForm):
     inputPhone = StringField('telnumber')
     send = SubmitField('send')
-    code = StringField('code')
+    inputVcode = StringField('code')
     submit = SubmitField('submit')
 
 

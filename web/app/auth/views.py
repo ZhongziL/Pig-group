@@ -39,7 +39,13 @@ def before():
 def unconfirmed():
     if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
-    return render_template('auth/unconfirmed.html')
+    if current_user.is_authenticated:
+        username = current_user.username
+        picSrc = current_user.avatar_url
+    else:
+        username = " "
+        picSrc = "avatar/head.png"
+    return render_template('auth/unconfirmed.html', username=username, picSrc=picSrc)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -208,7 +214,12 @@ def resend_confirm():
 def change_email():
     form = ChangeEmailForm()
     if form.validate_on_submit():
-        current_user.email = form.inputEmail.data
+        email = form.inputEmail.data
+        u = User.query.filter_by(email=email).first()
+        if u is not None:
+            flash('email has been register')
+            return redirect(url_for('auth.change_email'))
+        current_user.email = email
         current_user.confirmed = False
         token = current_user.generation_confirmation_token()
         send_mail(current_user.email, current_user.username,
@@ -243,10 +254,11 @@ def change_tel():
                 return render_template('/setting/phone.html', form=form, user=current_user, picSrc=current_user.avatar_url)
             session['mobile'] = mobile
             send_out(text, mobile)
+            flash('message has been send')
             return render_template('/setting/phone.html', form=form, user=current_user, picSrc=current_user.avatar_url)
         elif 'submit' in request.form:
-            if form.code.data == session['code']:
-                current_user.telnumber = session['mobile'];
+            if form.inputVcode.data == session['code']:
+                current_user.telnumber = session['mobile']
                 db.session.add(current_user)
                 flash("change telnumber success")
                 return render_template('/setting/phone.html', form=form, user=current_user, picSrc=current_user.avatar_url)
