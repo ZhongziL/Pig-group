@@ -112,11 +112,12 @@ li a {
 }
 
 
-#changeNickname, #changePhone, #changePassword, #confirmPassword {
+#changeNickname, #changePhone, #changePassword, #confirmPassword, #originalPassword {
 	margin-top: 3%;
 }
 
-#inputNick, #inputPhone, #inputEmail, #inputVcode, #inputPassword, #inputConfirmPassword{
+#inputNick, #inputPhone, #inputEmail, #inputVcode, #inputPassword,
+#inputConfirmPassword, #inputOriginalPassword {
 	margin-left: 30px;
 	padding: 8px 10px;
     font-size: 13px;
