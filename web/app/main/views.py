@@ -48,9 +48,17 @@ def user(name):
     # pagination = u.posts.order_by(Post.timestamp.desc()).paginate(page, per_page=20, error_out=False)
     # posts = pagination.items
     followeds = u.followed.all()
+    fd = []
+    for f in followeds:
+        fd.append(f.followed)
+
     followers = u.followers.all()
+    fe = []
+    for f in followers:
+        fe.append(f.follower)
+
     return render_template('main/personal.html', user=u, articles=posts, answers=list,cuser=current_user,
-                           followeds=followeds, followers=followers)
+                           followeds=fd, followers=fe)
 
 
 @main.route('/writeEssay', methods=['GET','POST'])

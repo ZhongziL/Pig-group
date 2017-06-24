@@ -46,15 +46,15 @@
 
         {% if user == cuser %}
         <div id="toSetting">
-            <a href={{url_for('auth.edit_profile')}}><button id="jump" type="button">修改个人设置</button></a>
+            <a href={{url_for('auth.edit_profile')}}><button class="jump" type="button">修改个人设置</button></a>
         </div>
         {% elif cuser.is_following(user) %}
         <div id="toSetting">
-            <a href={{url_for('main.follow', username=user.username)}} ><button id="jump" type="button">取消关注</button></a>
+            <a href={{url_for('main.unfollow', username=user.username)}} ><button class="jump" type="button">取消关注</button></a>
         </div>
         {% else %}
         <div id="toSetting">
-            <a href={{url_for('main.unfollow', username=user.username)}} ><button id="jump" type="button">关注他</button></a>
+            <a href={{url_for('main.follow', username=user.username)}} ><button class="jump" type="button">关注他</button></a>
         </div>
         {% endif %}
     </div>
