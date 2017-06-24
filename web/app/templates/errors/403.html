@@ -1,10 +1,34 @@
-<html>
-    <title>page_not_found</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>403 Forbidden</title>
+    <link href="../css/fault.css" type="text/css"  rel="stylesheet" media="screen" />
+</head>
+<body>
+	<div id="bgPicture">
+        <img src="../image/pixa.jpg">
+    </div>
 
-    <body>
-        <div>
-            <p>page_not_found</p>
-            <p><a href={{url_for('main.index')}}>back</a></p>
-        </div>
-    </body>
+    <div id="banner">
+        <div class="subBox"></div>
+        <div class="subBox"></div>
+        <div class="subBox">Logo</div>
+        <div class="subBox home"><a href="./index.html">首页</a></div>
+        <div class="subBox"><a href="./technol.html">头条</a></div>
+        <div class="subBox"><a href="./tools.html">专栏</a></div>
+
+        <div class="subBox right"></div>
+        <div class="subBox right"></div>
+        <div class="subBox right avatar"><img src="../image/avatar.jpg" alt=""></div>
+        <div class="subBox right"><a href="./tools.html">账号</a></div>
+        <div class="subBox right"><a href="./settings/html/profile">设置</a></div>
+    </div>
+
+    <div id="show">
+        <h1 id="error">Error 403</h1>
+        <p id="infor1">Forbidden</p>
+    </div>
+
+</body>
 </html>

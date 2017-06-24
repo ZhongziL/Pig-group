@@ -1,0 +1,100 @@
+* {
+    padding: 0px;
+    margin: 0px;
+
+    font-family: Microsoft YaHei Light;
+    color: rgb(128, 128, 128);
+}
+
+
+#bgPicture {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: fixed;
+}
+
+#bgPicture img {
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+}
+
+#banner {
+    position: fixed;
+    width: 100%;
+	background: rgb(255,255,255);
+
+	float: left;
+	box-shadow: 0 0 0.2em rgba(128, 128, 128, 0.9);
+}
+
+#banner .subBox {
+    width: 6%;
+    margin-top: 1%;
+    float: left;
+    text-align: center;
+}
+
+#banner .subBox a {
+    text-decoration: none;
+}
+
+#banner .home a, .right a {
+    color: rgb(0, 159, 171);
+}
+
+#banner .right {
+    float: right;
+}
+
+#banner .avatar {
+    margin-top: 0.5%;
+}
+
+#banner img {
+    width: 40%;
+}
+
+#show {
+    float: left;
+
+    margin-top: 5%;
+    margin-left: 15%;
+
+    width: 70%;
+    height: 30%;
+
+    box-shadow: 0 1px 1px rgba(0,0,0,.1) inset;
+    border-radius: 3px;
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #222;
+
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+
+}
+
+#error {
+    font-family: Microsoft YaHei;
+    font-size: 50px;
+    
+    margin-left: 35%;
+
+}
+
+#infor1, #infor2 {
+    font-family: Microsoft YaHei;
+    font-size: 20px;
+}
+
+#infor1 {
+    margin-left: 40%;
+}
+
+#infor2 {
+    margin-left: 36%;
+}
