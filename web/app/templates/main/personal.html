@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>personal</title>
+    <link href={{url_for('static', filename="css/personal.css")}} type="text/css"  rel="stylesheet" media="screen" />
+    <script type="text/javascript" src={{url_for('static', filename="js/jquery.js")}}></script>
+    <script type="text/javascript" src={{url_for('static', filename="js/personal.js")}}></script>
+</head>
+<body>
+	<div id="bgPicture">
+        <img src={{url_for('static', filename="images/pixa.jpg")}}>
+    </div>
+
+    <div id="banner">
+        <div class="subBox"></div>
+        <div class="subBox"></div>
+        <div class="subBox">Logo</div>
+        <div class="subBox home"><a href={{url_for('main.index')}}>首页</a></div>
+        <div class="subBox"><a href={{url_for('main.recommend')}}>推荐</a></div>
+        <div class="subBox"><a href={{url_for('main.writeEssay')}}>提问</a></div>
+
+        <div class="subBox right"></div>
+        <div class="subBox right"></div>
+        <div class="subBox right avatar"><img src={{url_for('static', filename=cuser.avatar_url)}}></div>
+        <div class="subBox right logout"><a href={{url_for('auth.logout')}}>退出</a></div>
+        <div class="subBox right personal"><a href={{url_for('main.user', name=cuser.username)}}>账号</a></div>
+        <div class="subBox right settings"><a href={{url_for('auth.edit_profile')}}>设置</a></div>
+    </div>
+
+    <div id="detail">
+        <div id="icon">
+            <img src={{url_for('static', filename=user.avatar_url)}}>
+        </div>
+
+        <div id="infor">
+            <p id="username">{{user.username}}</p>
+            {% if user.email %}
+            <p class="other"><span>手机</span><span class="detailValue">{{user.email}}</span></p>
+            {% endif %}
+            {% if user.telnumber %}
+            <p class="other"><span>邮箱</span><span class="detailValue">{{user.telnumber}}</span></p>
+            {% endif %}
+            <!--<p class="other"><span>个人介绍</span><span class="detailValue">我要gg了</span></p>-->
+        </div>
+
+        {% if user == cuser %}
+        <div id="toSetting">
+            <a href={{url_for('auth.edit_profile')}}><button id="jump" type="button">修改个人设置</button></a>
+        </div>
+        {% else if cuser.is_following(user) %}
+        <div id="toSetting">
+            <a href={{url_for('main.follow', username=user.username)}} ><button id="jump" type="button">关注他</button></a>
+        </div>
+        {% else %}
+        <div id="toSetting">
+            <a href={{url_for('main.unfollow', username=user.username)}} ><button id="jump" type="button">取消关注</button></a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div id="affairs">
+        <div id="topLine">
+            <button id="answers">问题</button>
+            <button id="articles">文章</button>
+        </div>
+        <div id="answerList">
+            {% for answer in answers %}
+            <div class="answerItem"><a href={{url_for('main.question', id=answer.id)}}>{{answer.body}}</a></div>
+            {% endfor %}
+        </div>
+        <div id="articleList">
+            {% for article in articles %}
+            <div class="answerItem"><a href={{url_for('main.question', id=article.id)}}>{{article.body}}</a></div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="follow">
+        <div id="btnLine">
+            <button id="following">我关注的<span id="followingNum">{{user.followed.count()}}</span></button>
+            <button id="follower">关注我的<span id="followerNum">{{user.followers.count()}}</span></button>
+        </div>
+        <div id="followingList">
+            {% for followed in followeds %}
+            <div class="userItem">
+                <a href={{url_for('main.user', name=followed.username)}}>
+                    <div class="userAvat"><img src={{url_for('static', filename=followed.avatar_url)}}></div>
+                    <div class="userName"><p>{{followed.username}}</p></div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="followerList">
+            {% for follower in followers %}
+            <div class="userItem">
+                <a href={{url_for('main.user', name=follower.username)}}>
+                    <div class="userAvat"><img src={{url_for('static', filename=follower.avatar_url)}}></div>
+                    <div class="userName"><p>{{follower.username}}</p></div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

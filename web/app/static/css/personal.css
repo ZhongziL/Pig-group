@@ -1,0 +1,273 @@
+* {
+    padding: 0px;
+    margin: 0px;
+
+    font-family: Microsoft YaHei Light;
+}
+
+#bgPicture {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: fixed;
+}
+
+#bgPicture img {
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+}
+
+#banner {
+    position: fixed;
+    width: 100%;
+	background: rgb(255,255,255);
+
+	float: left;
+	box-shadow: 0 0 0.2em rgba(128, 128, 128, 0.9);
+}
+
+#banner .subBox {
+    width: 6%;
+    margin-top: 1%;
+    float: left;
+    text-align: center;
+}
+
+#banner .subBox a {
+    text-decoration: none;
+    color: black;
+}
+
+#banner .personal a {
+    color: rgb(0, 159, 171);
+}
+
+#banner .right {
+    float: right;
+}
+
+#banner .avatar {
+    margin-top: 0.5%;
+}
+
+#banner img {
+    width: 40%;
+}
+
+#detail {
+    float: left;
+
+    margin-top: 5%;
+    margin-left: 13.5%;
+
+    padding-top: 1%;
+    padding-bottom: 1%;
+
+    overflow:  hidden;
+
+    width: 73%;
+
+    background: #fff;
+    border: 1px solid #e7eaf1;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,37,55,.05);
+    box-sizing: border-box;
+}
+
+#icon {
+    float: left;
+
+    margin-left: 2%;
+    margin-top: 0.5%;
+
+    width: 140px;
+    height: 140px;
+
+    border: 2px solid rgb(0, 159, 171);
+}
+
+#icon img {
+    width: 140px;
+    height: 140px;
+}
+
+#infor {
+    float: left;
+
+    margin-left: 2%;
+    margin-top: 2%;
+
+    width: 40%;
+    height: 140px;
+}
+
+.other {
+    margin-top: 9px;
+}
+
+#username {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.detailValue {
+    margin-left: 10%;
+}
+
+#toSetting {
+    float: right;
+
+    width: 15%;
+    margin-right: 2%;
+    margin-top: 10%;
+}
+
+#toSetting button {
+    color: rgb(0, 159, 171);
+    border: 1px solid rgb(0, 159, 171);
+
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 32px;
+    text-align: center;
+    cursor: pointer;
+    background: none;
+    border-radius: 3px;
+}
+
+#affairs {
+    width: 55%;
+
+    margin-top: 1%;
+    margin-left: 13.5%;
+
+    float: left;
+    background: #fff;
+    border: 1px solid #e7eaf1;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,37,55,.05);
+
+    overflow: hidden;
+}
+
+#affairs button {
+    width: 80px;
+    height: 50px;
+
+    background-color: white;
+    border-style: none;
+
+    font-size: 1.2em;
+}
+
+#affairs #answers {
+    font-weight: bold;
+}
+
+#topLine {
+    border-bottom: 1px solid rgba(0,37,55,.05);
+}
+
+#answerList {
+    width: 100%;
+    margin-bottom: 1%;
+}
+
+.answerItem a {
+    color: black;
+
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.answerItem {
+    margin-top: 1%;
+    padding-left: 3%;
+}
+
+#articleList {
+    display: none;
+}
+
+#follow {
+    width: 16.7%;
+
+    margin-top: 1%;
+    margin-left: 1%;
+
+    padding-bottom: 0.5%;
+
+    float: left;
+    background: #fff;
+    border: 1px solid #e7eaf1;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,37,55,.05);
+
+    overflow: hidden;
+
+}
+
+#follow button {
+    width: 48%;
+    height: 50px;
+
+    background-color: white;
+    border-style: none;
+
+    font-size: 1em;
+
+    margin-top: 2%;
+    margin-bottom: 2%;
+
+    float: left;
+}
+
+#follow span {
+    width: 100%;
+    float: left;
+}
+
+#btnLine {
+    overflow: hidden;
+    border-bottom: 1px solid rgba(0,37,55,.05);
+}
+
+#following {
+    font-weight: bold;
+}
+
+.userItem {
+    float: left;
+    width: 100%;
+
+    padding-top: 5%;
+    padding-left: 5%;
+}
+
+.userAvat {
+    width: 30px;
+    float: left;
+}
+
+.userAvat img {
+    width: 100%;
+}
+
+.userName  {
+    width: 50%;
+    float: left;
+    font-weight: bold;
+    margin-left: 5%;
+}
+
+.userItem p {
+    font-size: 1.2em;
+    color: black;
+    vertical-align: middle;
+}
+
+#followerList {
+    display: none;
+}

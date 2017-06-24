@@ -38,7 +38,7 @@
 
                     <label for="password">密码</label>                    
                     <a href={{url_for('auth.retrivepassword')}}>忘记密码?</a><br>
-                    {{form.password}}
+                    {{form.password(type="password")}}
                     <!--<input type="text" name="password" value="" /><br>-->
                     <input type="submit" name="submit" id="submitBtn" value="登录" />
                 </form>

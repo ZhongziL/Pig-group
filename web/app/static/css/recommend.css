@@ -1,0 +1,209 @@
+* {
+    padding: 0px;
+    margin: 0px;
+
+    font-family: Microsoft YaHei Light;
+}
+
+#bgPicture {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: fixed;
+}
+
+#bgPicture img {
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+}
+
+#banner {
+    position: fixed;
+    width: 100%;
+    background-color: white;
+
+	float: left;
+	box-shadow: 0 0 0.2em rgba(128, 128, 128, 0.9);
+}
+
+#banner .subBox {
+    width: 6%;
+    margin-top: 1%;
+    float: left;
+    text-align: center;
+}
+
+#banner .subBox a {
+    text-decoration: none;
+    color: black;
+}
+
+#banner .recommend a {
+    color: rgb(0, 159, 171);
+}
+
+#banner .right {
+    float: right;
+}
+
+#banner .avatar {
+    margin-top: 0.5%;
+}
+
+#banner img {
+    width: 40%;
+    height: 40%;
+}
+
+#head {
+    float: left;
+
+    width: 50%;
+    margin-top: 5%;
+    margin-left: 13.5%;
+
+    overflow: hidden;
+
+    box-shadow: 0 0 0.2em rgba(128, 128, 128, 0.9);
+    background-color: white;
+    border-radius: 0.1em;
+}
+
+#head h1 {
+    font-size: 1.5em;
+
+    margin: 2%;
+}
+
+#main {
+    float: left;
+
+    margin-top: 1%;
+    margin-left: 13.5%;
+    width: 50%;
+}
+
+.listItem {
+    margin-bottom: 2%;
+
+    width: 100%;
+    box-shadow: 0 0 0.2em rgba(128, 128, 128, 0.9);
+    background-color: white;
+    border-radius: 0.1em;
+    overflow: hidden;
+}
+
+.userInfo {
+    float: left;
+    width: 100%;
+
+    margin-top: 2%;
+    margin-left: 2%;
+}
+
+
+.userAvat img {
+    width: 30px;
+}
+
+.userInfo span {
+    float: left;
+    font-weight: bold;
+    text-align: center;
+}
+
+.userInfo p {
+    font-size: 1.2em;
+    padding-left: 5px;
+}
+
+.quesTitle {
+    width: 100%;
+    float: left;
+    margin-left: 2%;
+}
+
+.quesTitle a {
+    font-size: 1.5em;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.quesDesc {
+    float: left;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+.quesDesc a {
+    font-size: 1em;
+    text-decoration: none;
+    color: rgb(0, 159, 171);
+}
+
+.interBtn {
+    margin-left: 2%;
+    margin-bottom: 2%;
+}
+
+.interBtn img {
+    width: 20%;
+    height: 50%;
+}
+
+.like, .dislike {
+    width: 50px;
+    height: 30px;
+    background-color: rgb(230, 239, 251);
+    border-style: none;
+    color: rgb(0, 159, 171);
+}
+
+.comments {
+    padding-top: 0.3%;
+    width: 100px;
+    border-style: none;
+    background-color: white;
+    float: right;
+    margin-right: 2%;
+
+    font-size: 1em;
+}
+
+.comments img {
+    padding-top: 7%;
+    padding-right: 1%;
+    width: 15%;
+    float: left;
+    opacity: 0.7;
+}
+
+.comments p {
+    float: left;
+    padding-top: 4%;
+    padding-left: 2%;
+    vertical-align: middle;
+}
+
+#alert {
+    width: 78.3%;
+    border: 1px solid rgb(180, 100, 100);
+    background-color: pink;
+    color: rgb(180, 100, 100);
+}
+
+#msgBtn {
+    width: 5%;
+    font-size: 1em;
+    background-color: pink;
+    float: right;
+    margin-right: 2%;
+
+    color: rgb(180, 100, 100);
+    border-style: none;
+}

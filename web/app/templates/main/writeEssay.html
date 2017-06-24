@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Home</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!--<link rel="Icon" href="./logo.png">-->
+        <!--<link href="./index.css" type="text/css"  rel="stylesheet" media="screen" />-->
+        <link href={{url_for('static', filename="css/writeEssay.css")}} type="text/css"  rel="stylesheet" media="screen" />
+	</head>
+
+	<body>
+        <div id="bgPicture">
+            <img src={{url_for('static', filename="images/pixa.jpg")}}>
+        </div>
+
+        <div id="banner">
+        	<div class="subBox"></div>
+        	<div class="subBox"></div>
+            <div class="subBox">Logo</div>
+            <div class="subBox"><a href={{url_for('main.index')}}>首页</a></div>
+            <div class="subBox"><a href={{url_for('main.recommend')}}>推荐</a></div>
+            <div class="subBox"><a href={{url_for('main.writeEssay')}}>提问</a></div>
+
+            <div class="subBox right"></div>
+        	<div class="subBox right"></div>
+            <div class="subBox right avatar"><img src={{url_for('static', filename=picSrc)}}></div>
+            <div class="subBox right"><a href={{url_for('auth.logout')}}>登出</a></div>
+            <div class="subBox right"><a href={{url_for('main.user', name=username)}}>账号</a></div>
+            <div class="subBox right"><a href={{url_for('auth.edit_profile')}}>设置</a></div>
+        </div>
+
+
+        <div id="mainForm">
+            <form method="post">
+                {{form.csrf_token}}
+                <h3>写下你的问题/文章</h3>
+                <input type="text" name="title" id="title" value="" placeholder="请输入标题"/><br> 
+
+                {{form.content(rows="10", placeholder="请输入内容")}}<br>
+                <!--<textarea name="context" id="context" rows="10" placeholder="请输入内容"></textarea><br>-->
+                <input type="submit" id="submitBtn" value="提交" />
+            </form>
+        </div>
+	</body>
+</html>

@@ -1,30 +1,8 @@
-<!DOCTYPE html>
- <html lang="en">
- <head>
- 	<meta charset="UTF-8">
- 	<title>email to reset</title>
- 	<style type="text/css">
- 		* {
- 			font-family: Microsoft YaHei;
- 		}
+<html>
+    <body>
+        <p>Hello {{username}}</p>
 
- 		#hello {
-			font-size: 20px;
-			font-weight: bold;
-		}
-
-		.change {
-			color: rgb(128, 128, 128);
-		}
-
-		#confirm {
-			font-weight: bold;
-		}
- 	</style>
- </head>
- <body>
- 	<p id="hello" class="change">Hello {{username}}</p>
-    <p id="reset" class="change">please click to reset_password</p>
-    <p><a id="confirm" href={{url_for('auth.reset_confirm', token=token, _external=True)}}>confirm</a></p>
- </body>
- </html>
+        <p>please click to reset_password</p>
+        <p><a href={{url_for('auth.reset_confirm', token=token, _external=True)}}>confirm</a></p>
+    </body>
+</html>

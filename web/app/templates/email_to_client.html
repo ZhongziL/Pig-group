@@ -1,32 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>email to client</title>
-	<style type="text/css">
-		* {
-		    font-family: Microsoft YaHei;
-		}
+<html>
+    <body>
+        <p>Welcome {{username}}</p>
 
-		#welcome {
-			font-size: 20px;
-			font-weight: bold;
-		}
+        <p>please click to confirm</p>
+        <p><a href={{url_for('auth.confirm', token=token, _external=True)}}>confirm</a></p>
 
-		.change {
-			color: rgb(128, 128, 128);
-		}
-
-		.jump {
-			font-weight: bold;
-		}
-	</style>
-</head>
-<body>
-	<p id="welcome" class="change">Welcome {{username}}</p>
-	<p id="confirm" class="change">please click to confirm</p>
-	<p><a class="jump" href={{url_for('auth.confirm', token=token, _external=True)}}>confirm</a></p>
-	<p id="cancel" class="change">if it is not your operator please click</p>
-	<p><a class="jump" href={{url_for('auth.cancel', token=token, _external=True)}}>cancel register</a></p>
-</body>
+        <p>if it is not your operator please click</p>
+        <p><a href={{url_for('auth.cancel', token=token, _external=True)}}>cancel register</a></p>
+    </body>
 </html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Home</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!--<link rel="Icon" href="./logo.png">-->
+        <!--<link href="./index.css" type="text/css"  rel="stylesheet" media="screen" />-->
+        <link href={{url_for('static', filename="css/index.css")}} type="text/css"  rel="stylesheet" media="screen" />
+	</head>
+
+	<body>
+        <div id="bgPicture">
+            <img src={{url_for('static', filename="images/pixa.jpg")}}>
+        </div>
+
+        <div id="banner">
+        	<div class="subBox"></div>
+        	<div class="subBox"></div>
+            <div class="subBox">Logo</div>
+            <div class="subBox home"><a href={{url_for('main.index')}}>首页</a></div>
+            <div class="subBox"><a href={{url_for('main.recommend')}}>推荐</a></div>
+            <div class="subBox"><a href={{url_for('main.writeEssay')}}>提问</a></div>
+
+            <div class="subBox right"></div>
+        	<div class="subBox right"></div>
+            <div class="subBox right avatar"><img src={{url_for('static', filename=picSrc)}}></div>
+            {% if current_user.is_authenticated %}
+            <div class="subBox right"><a href={{url_for('auth.logout')}}>登出</a></div>
+            <div class="subBox right"><a href={{url_for('main.user', name=username)}}>账号</a></div>
+            <div class="subBox right"><a href={{url_for('auth.edit_profile')}}>设置</a></div>
+            {% else %}
+            <div class="subBox right"><a href={{url_for('auth.login')}}>登录</a></div>
+            <div class="subBox right"><a href={{url_for('auth.register')}}>注册</a></div>
+            {% endif %}
+        </div>
+
+        <div id="main">
+                {% for post in posts %}
+                    <div class="listItem">
+                        <div class="userInfo">
+                            <span class="userAvat"><a href={{url_for('main.user', name=post.author_name)}}><img src={{url_for('static', filename=post.author.avatar_url)}}></a></span>
+                            <span class="userName"><p>{{post.author_name}}</p></span>
+                        </div>
+                        <div class="quesTitle">
+                            <a href={{url_for('main.question', id=post.id)}}>{{post.body}}</a>
+                        </div>
+                        <div class="quesDesc">
+                            <p>
+                                {{post.body_html}}
+                                <!--<a href="">阅读全文 ∨</a>-->
+                            </p>
+                        </div>
+                        <div class="interBtn">
+                            <button class="like"><a href={{url_for('main.addPost', id=post.id)}}><img src={{url_for('static', filename="images/triangle_up.png")}}></a>{{post.good_count}}</button>
+                            <button class="dislike"><img src={{url_for('static', filename="images/triangle_down.png")}}></button>
+                            <button class="comments"><a href={{url_for('main.user', name=post.author_name)}}><img src={{url_for('static', filename="images/comment.png")}}></a><p>{{post.comments.count()}}</p></button>
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+
+        <div id="rightPart">
+            <div id="userMenu">
+                <button id="askQues"><a href={{url_for('main.writeEssay')}}><img src={{url_for('static', filename="images/question.png")}}></a><p>提问</p></button>
+                <button id="answerQues"><a href={{url_for('main.recommend')}}><img src={{url_for('static', filename="images/answer.png")}}></a><p>回答</p></button>
+                <button id="writeEssay"><a href={{url_for('main.writeEssay')}}><img src={{url_for('static', filename="images/write.png")}}></a><p>写文章</p></button>
+            </div>
+
+            <div id="quesRec">
+                <h3>相关推荐</h3>
+                {% for onshow in onshows %}
+                <div class="recItem"><a href={{url_for('main.question', id=onshow.id)}}>{{onshow.body}}</a><p>{{onshow.comments.count()}}个回答</p></div>
+                {% endfor %}
+            </div>
+        </div>
+	</body>
+</html>

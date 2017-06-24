@@ -185,3 +185,21 @@ li a {
     color: #c33;
     visibility: hidden;
 }
+
+#alert {
+    width: 78.3%;
+    border: 1px solid rgb(180, 100, 100);
+    background-color: pink;
+    color: rgb(180, 100, 100);
+}
+
+#msgBtn {
+    width: 5%;
+    font-size: 1em;
+    background-color: pink;
+    float: right;
+    margin-right: 2%;
+
+    color: rgb(180, 100, 100);
+    border-style: none;
+}

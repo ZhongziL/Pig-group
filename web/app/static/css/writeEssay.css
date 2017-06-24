@@ -1,0 +1,123 @@
+* {
+    padding: 0px;
+    margin: 0px;
+
+    font-family: Microsoft YaHei Light;
+}
+
+#bgPicture {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    position: fixed;
+}
+
+#bgPicture img {
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+}
+
+#banner {
+    position: fixed;
+    width: 100%;
+    background-color: white;
+
+	float: left;
+	box-shadow: 0 0 0.2em rgba(128, 128, 128, 0.9);
+}
+
+#banner .subBox {
+    width: 6%;
+    margin-top: 1%;
+    float: left;
+    text-align: center;
+}
+
+#banner .subBox a {
+    text-decoration: none;
+    color: black;
+}
+
+#banner .recommend a {
+    color: rgb(0, 159, 171);
+}
+
+#banner .right {
+    float: right;
+}
+
+#banner .avatar {
+    margin-top: 0.5%;
+}
+
+#banner img {
+    width: 40%;
+    height: 40%;
+}
+
+#mainForm {
+    float: left;
+
+    width: 45%;
+    margin-top: 5%;
+    margin-left: 26%;
+
+    overflow: hidden;
+}
+
+#mainForm h3 {
+    font-size: 2.3em;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+#mainForm input {
+    margin-bottom: 5%;
+}
+
+#mainForm #title {
+    width: 99%;
+    font-size: 2.0em;
+    font-weight: bold;
+}
+
+#mainForm textarea {
+    width: 99%;
+    font-size: 1.5em;
+}
+
+#submitBtn {
+    width: 20%;
+    font-size: 1.5em;
+
+    margin-left: 38%;
+    margin-top: 3%;
+    background-color: rgb(0, 159, 171);
+
+    color: white;
+    border-style: none;
+}
+
+.showerror {
+    color: #c33;
+}
+
+#alert {
+    width: 78.3%;
+    border: 1px solid rgb(180, 100, 100);
+    background-color: pink;
+    color: rgb(180, 100, 100);
+}
+
+#msgBtn {
+    width: 5%;
+    font-size: 1em;
+    background-color: pink;
+    float: right;
+    margin-right: 2%;
+
+    color: rgb(180, 100, 100);
+    border-style: none;
+}

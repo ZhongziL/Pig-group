@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Recommends</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!--<link rel="Icon" href="./logo.png">-->
+        <link href={{url_for('static', filename="css/recommend.css")}} type="text/css"  rel="stylesheet" media="screen" />
+	</head>
+
+	<body>
+        <div id="bgPicture">
+            <img src={{url_for('static', filename="images/pixa.jpg")}}>
+        </div>
+
+        <div id="banner">
+        	<div class="subBox"></div>
+        	<div class="subBox"></div>
+            <div class="subBox">Logo</div>
+            <div class="subBox home"><a href={{url_for('main.index')}}>首页</a></div>
+            <div class="subBox"><a href={{url_for('main.recommend')}}>推荐</a></div>
+            <div class="subBox"><a href={{url_for('main.writeEssay')}}>提问</a></div>
+
+            <div class="subBox right"></div>
+        	<div class="subBox right"></div>
+            <div class="subBox right avatar"><img src={{url_for('static', filename=picSrc)}}></div>
+            <div class="subBox right logout"><a href={{url_for('auth.logout')}}>退出</a></div>
+            <div class="subBox right"><a href={{url_for('main.user', name=username)}}>账号</a></div>
+            <div class="subBox right"><a href={{url_for('auth.edit_profile')}}>设置</a></div>
+        </div>
+
+        <div id="head">
+            <h1>为你推荐可能感兴趣的问题</h1>
+        </div>
+
+        <div id="main">
+            {% for recommend in recommends %}
+            <div class="listItem">
+                <div class="userInfo">
+                    <span class="userAvat"><a href={{url_for('main.user', name=recommend.author_name)}}><img src={{url_for('static', filename=recommend.author.avatar_url)}}></a></span>
+                    <span class="userName"><p>{{recommend.author_name}}</p></span>
+                </div>
+                <div class="quesTitle">
+                    <a href={{url_for('main.question', id=recommend.id)}}>{{recommend.body}}</a>
+                </div>
+                <div class="quesDesc">
+                    <p>
+                        {{recommend.body_html}}
+                        <!--<a href="">阅读全文 ∨</a>-->
+                    </p>
+                </div>
+                <div class="interBtn">
+                    <button class="like"><a href={{url_for('main.addPost', id=recommend.id)}}><img src={{url_for('static', filename="images/triangle_up.png")}}></a>{{recommend.good_count}}</button>
+                    <button class="dislike"><a href={{url_for('main.recommend')}}><img src={{url_for('static', filename="images/triangle_down.png")}}></a></button>
+                    <button class="comments"><a href={{url_for('main.user', name=recommend.author_name)}}><img src={{url_for('static', filename="images/comment.png")}}></a><p>{{recommend.comments.count()}}</p></button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+	</body>
+</html>
