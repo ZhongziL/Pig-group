@@ -20,6 +20,10 @@ $(function () {
 	    }
 	}, false);
 
+	$(".close").on('click', function() {
+        $("#alert").css("display", "none");
+    });
+
 	$('#inputNick').on("click", function () {
 		$('#errorNick').css("visibility", "hidden");
 	});

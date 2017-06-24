@@ -4,6 +4,10 @@ $(function () {
 		$('#errorEmail').css("visibility", "hidden");
 	});
 
+	$(".close").on('click', function() {
+        $("#alert").css("display", "none");
+    });
+
 	// if submit or not
 	$('#saveButton').on("click", function () {
 		var iscorrect = true;
