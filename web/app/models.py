@@ -53,6 +53,14 @@ class Follow(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 
+class GoodPost(db.Model):
+    __tablename__ = 'goods'
+    user = db.Column(db.Integer, db.ForeignKey('users.username'),
+                            primary_key=True)
+    post = db.Column(db.Integer, db.ForeignKey('posts.id'),
+                            primary_key=True)
+
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     '''id = db.Column(db.Integer, primary_key=True)'''
@@ -67,6 +75,7 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+
     followed = db.relationship('Follow',
                                foreign_keys=[Follow.follower_id],
                                backref=db.backref('follower', lazy='joined'),
@@ -77,7 +86,13 @@ class User(UserMixin, db.Model):
                                 backref=db.backref('followed', lazy='joined'),
                                 lazy='dynamic',
                                 cascade='all, delete-orphan')
+    goodposts = db.relationship('GoodPost',
+                                foreign_keys=[GoodPost.user],
+                                backref=db.backref('u', lazy='joined'),
+                                lazy='dynamic',
+                                cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
+    replies = db.relationship('Reply', backref='author', lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -162,6 +177,20 @@ class User(UserMixin, db.Model):
         return self.followers.filter_by(
             follower_id=user.username).first() is not None
 
+    def love(self, post):
+        if not self.is_loving(post):
+            l = GoodPost(u=self,lp=post)
+            db.session.add(l)
+
+    def unlove(self, post):
+        l = GoodPost.query.filter_by(post=post.id).first()
+        if l:
+            db.session.delete(l)
+
+    def is_loving(self, post):
+        return self.goodposts.filter_by(
+            post=post.id).first() is not None
+
     @staticmethod
     def reset_password(token):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -199,9 +228,19 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
+    good_count = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_name = db.Column(db.String(64), db.ForeignKey('users.username'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    lovers = db.relationship('GoodPost',
+                                foreign_keys=[GoodPost.post],
+                                backref=db.backref('lp', lazy='joined'),
+                                lazy='dynamic',
+                                cascade='all, delete-orphan')
+
+    def is_loved(self, user):
+        return self.lovers.filter_by(
+            user=user.username).first() is not None
 
 
 class Comment(db.Model):
@@ -209,7 +248,20 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
+    good_count = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     disabled = db.Column(db.Boolean)
     author_name = db.Column(db.Integer, db.ForeignKey('users.username'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    replies = db.relationship('Reply', backref='comment', lazy='dynamic')
+
+
+class Reply(db.Model):
+    __tablename__ = 'replies'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
+    author_name = db.Column(db.Integer, db.ForeignKey('users.username'))
+
+

@@ -13,7 +13,7 @@ class config:
     MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or '473230218@qq.com'
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'babsiqflogfycafc'
-    MAIL_SUBJECT_PREFIX = 'NEW USER COMING'
+    MAIL_SUBJECT_PREFIX = 'Hello'
     MAIL_SENDER = '473230218@qq.com'
     PROJECT_ADMIN = '473230218@qq.com'
 

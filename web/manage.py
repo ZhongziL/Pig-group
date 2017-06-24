@@ -1,7 +1,7 @@
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 from app import create_app, db
-from app.models import User, Role, Permission, Follow, Comment, Post
+from app.models import User, Role, Permission, Follow, Comment, Post, GoodPost, Reply
 from flask_uploads import configure_uploads, patch_request_class
 from app.auth.views import icon
 from flask_moment import Moment
@@ -18,7 +18,7 @@ migrate = Migrate(app, db)
 '''add command python manage.py shell'''
 def make_shell_context():
     return dict(app=app, db=db, User=User, Role=Role, Permission=Permission,
-                Follow=Follow, Comment=Comment, Post=Post)
+                Follow=Follow, Comment=Comment, Post=Post, Reply=Reply, GoodPost=GoodPost)
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
 
