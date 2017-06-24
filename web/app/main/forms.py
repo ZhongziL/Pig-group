@@ -1,7 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, FileField
+from wtforms import StringField, SubmitField, FileField, TextAreaField
 
 class PostForm(FlaskForm):
-    post = StringField('post')
+    title = StringField('title')
     picture = FileField('picture')
+    content = TextAreaField('body')
+    submit = SubmitField('submit')
+
+class CommentForm(FlaskForm):
+    ansText = TextAreaField('body')
     submit = SubmitField('submit')

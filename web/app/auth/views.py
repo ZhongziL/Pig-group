@@ -135,8 +135,8 @@ def change_password():
             flash('password changed')
             return redirect(url_for('main.index'))
         flash('password error')
-        return render_template('/setting/password.html', form=form, picSrc=current_user.avatar_url)
-    return render_template('/setting/password.html', form=form, picSrc=current_user.avatar_url)
+        return render_template('/setting/password.html', form=form, username=current_user.username, picSrc=current_user.avatar_url)
+    return render_template('/setting/password.html', form=form, username=current_user.username, picSrc=current_user.avatar_url)
 
 
 @auth.route('/edit-profile', methods=['GET', 'POST'])
