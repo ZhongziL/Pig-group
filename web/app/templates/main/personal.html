@@ -59,6 +59,15 @@
         {% endif %}
     </div>
 
+    <div id="flash_alert" style="display:none;">
+        {% for message in get_flashed_messages()%}
+        <div id="alert">
+            {{message}}
+            <button type="button" id="msgBtn" class="close" data-dismiss="alert">X</button>
+        </div>
+        {%endfor%}
+    </div>
+
     <div id="affairs">
         <div id="topLine">
             <button id="answers">问题</button>
