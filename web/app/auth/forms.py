@@ -42,21 +42,29 @@ class RegisterForm_telnumber(FlaskForm):
             raise ValidationError('telnumber has already been registered')
 
 class ChangePasswordForm(FlaskForm):
-    oldpassword = StringField('oldpassword')
-    newpassword = StringField('newpassword')
-    password_again = StringField('password_again')
+    inputOriginalPassword = StringField('oldpassword')
+    inputPassword = StringField('newpassword')
+    inputConfirmPassword = StringField('password_again')
     submit = SubmitField('Change Confirm')
 
 
 class EditProfileForm(FlaskForm):
+    inputNick = StringField('username')
+    upload = FileField('avatar')
     user_detail = StringField('userdetail')
     submit = SubmitField('Confirm')
 
 
 class ChangeEmailForm(FlaskForm):
-    new_email = StringField('email')
-    password = StringField('password')
+    inputEmail = StringField('email')
     submit = SubmitField('Change Email')
+
+
+class ChangeTelForm(FlaskForm):
+    inputPhone = StringField('telnumber')
+    send = SubmitField('send')
+    code = StringField('code')
+    submit = SubmitField('submit')
 
 
 class ResetForm_email(FlaskForm):

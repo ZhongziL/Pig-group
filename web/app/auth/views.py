@@ -3,7 +3,7 @@ from flask import url_for, render_template, redirect, flash, request, session, a
 from .forms import LoginForm, RegisterForm, ChangePasswordForm, EditProfileForm
 from .forms import ChangeEmailForm, ResetPasswordForm, ResetForm_tel, EditProfileAdminForm
 from .forms import LoginForm_telnumber, RegisterForm_telnumber, ResetForm_email
-from .forms import UploadAvatarForm
+from .forms import UploadAvatarForm, ChangeTelForm
 from ..models import User
 from sqlalchemy import or_
 from .. import db
@@ -127,15 +127,16 @@ def logout():
 def change_password():
     form = ChangePasswordForm()
     if form.validate_on_submit():
-        old_password = form.oldpassword.data
+        old_password = form.inputOriginalPassword.data
+        print(old_password)
         if current_user.checkpassword(old_password):
-            current_user.password = form.newpassword.data
+            current_user.password = form.inputPassword.data
             db.session.add(current_user)
             flash('password changed')
             return redirect(url_for('main.index'))
         flash('password error')
-        return render_template('/auth/changepassword.html', form=form)
-    return render_template('/auth/changepassword.html', form=form)
+        return render_template('/setting/password.html', form=form, picSrc=current_user.avatar_url)
+    return render_template('/setting/password.html', form=form, picSrc=current_user.avatar_url)
 
 
 @auth.route('/edit-profile', methods=['GET', 'POST'])
@@ -143,13 +144,33 @@ def change_password():
 def edit_profile():
     form = EditProfileForm()
     if form.validate_on_submit():
-        user_detail = form.user_detail.data
-        current_user.user_detail = user_detail
+        # user_detail = form.user_detail.data
+        # current_user.user_detail = user_detail
+        nickname = form.inputNick.data
+        u = User.query.filter_by(username=nickname).first()
+        if u is not None and nickname != current_user.username:
+            flash("you can not use this nickname")
+            return render_template('/setting/profile.html', form=form, user=current_user, picSrc=current_user.avatar_url)
+
+        current_user.username = nickname
+        filename = form.upload.data.filename
+        old_avatar = current_user.avatar_url
+        if old_avatar is not None and old_avatar != 'avatar/head.png':
+            path = os.path.join(os.getcwd(), 'app/static')
+            url = os.path.join(path, old_avatar)
+            if os.path.exists(url):
+                os.remove(url)
+
+        icon.save(form.upload.data, name=filename)
+        avatar_name = os.path.join('avatar', filename)
+        print(avatar_name)
+        current_user.avatar_url = avatar_name
         db.session.add(current_user)
         flash('profile edit success')
         return redirect(url_for('main.user', name=current_user.username))
-    form.user_detail.data = current_user.user_detail
-    return render_template('/auth/edit_profile.html', form=form, user=current_user)
+    # form.user_detail.data = current_user.user_detail
+    form.inputNick.data = current_user.username
+    return render_template('/setting/profile.html', form=form, user=current_user, picSrc=current_user.avatar_url)
 
 
 @auth.route('/confirm/<token>')
@@ -187,18 +208,52 @@ def resend_confirm():
 def change_email():
     form = ChangeEmailForm()
     if form.validate_on_submit():
-        if current_user.checkpassword(form.password.data):
-            current_user.email = form.new_email.data
-            current_user.confirmed = False
-            token = current_user.generation_confirmation_token()
-            send_mail(current_user.email, current_user.username,
-                      'email_to_client', token=token, username=current_user.username)
-            db.session.add(current_user)
-            flash('your email has already been changed')
-            return redirect(url_for('auth.unconfirmed'))
-        flash('password error')
-        return render_template('/auth/change_email.html', form=form)
-    return render_template('/auth/change_email.html', form=form)
+        current_user.email = form.inputEmail.data
+        current_user.confirmed = False
+        token = current_user.generation_confirmation_token()
+        send_mail(current_user.email, current_user.username,
+                 'email_to_client', token=token, username=current_user.username)
+        db.session.add(current_user)
+        flash('your email has already been changed')
+        return redirect(url_for('auth.unconfirmed'))
+    if current_user.email is not None:
+        form.inputEmail.data = current_user.email
+    return render_template('/setting/email.html', form=form, user=current_user, picSrc=current_user.avatar_url)
+
+
+@auth.route('/change_tel', methods=['GET','POST'])
+@login_required
+def change_tel():
+    form = ChangeTelForm()
+    if request.method == 'POST':
+        telnumber = form.inputPhone.data
+        if (telnumber == current_user.telnumber):
+            flash('The telnumber is the same with your number')
+            return render_template('/setting/phone.html', form=form, user=current_user, picSrc=current_user.avatar_url)
+
+        if 'send' in request.form:
+            code = random.randint(1000,9999)
+            text = str(code)
+            session['code'] = text
+            print(text)
+            mobile = form.inputPhone.data
+            phone = User.query.filter_by(telnumber=mobile).first()
+            if phone is not None:
+                flash('telnumber has already registered')
+                return render_template('/setting/phone.html', form=form, user=current_user, picSrc=current_user.avatar_url)
+            session['mobile'] = mobile
+            send_out(text, mobile)
+            return render_template('/setting/phone.html', form=form, user=current_user, picSrc=current_user.avatar_url)
+        elif 'submit' in request.form:
+            if form.code.data == session['code']:
+                current_user.telnumber = session['mobile'];
+                db.session.add(current_user)
+                flash("change telnumber success")
+                return render_template('/setting/phone.html', form=form, user=current_user, picSrc=current_user.avatar_url)
+            return render_template('/setting/phone.html', form=form, user=current_user, picSrc=current_user.avatar_url)
+    if current_user.telnumber is not None:
+        form.inputPhone.data = current_user.telnumber
+    return render_template('/setting/phone.html', form=form, user=current_user, picSrc=current_user.avatar_url)
 
 
 @auth.route('/retrivepassword', methods=['GET', 'POST'])
@@ -274,7 +329,7 @@ def reset_by_num(mobile):
     form = ResetPasswordForm()
     user = User.query.filter_by(telnumber=mobile).first()
     if form.validate_on_submit() and user is not None and mobile is not None:
-        user.password = form.newpassword.data
+        user.password = form.password.data
         db.session.add(user)
         flash('reset success')
         return redirect(url_for('auth.login'))
